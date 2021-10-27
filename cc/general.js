@@ -14,6 +14,26 @@ if (process.browser)
 else
   ccimp = require('@tokel/cryptoconditions');
 
+/**
+ * Receives any string(WIF/seed phrase) and returns the address.
+ * @param {string} key
+ * @returns
+ */
+ const keyToAddress = (key, network) => {
+
+    const hash = sha('sha256').update(key);
+    const bytes = hash.digest();
+
+    bytes[0] &= 248;
+    bytes[31] &= 127;
+    bytes[31] |= 64;
+
+    const d = bigi.fromBuffer(bytes);
+    const keyPair = new ecpair(d, null, { network });
+
+    return keyPair.getAddress();
+  
+};
 
 /**
  * Receives any string(WIF/seed phrase) and returns WIF.
@@ -98,3 +118,4 @@ async function makeNormalTx(wif, destaddress, amount, network, peers) {
 exports.keyToWif = keyToWif;
 exports.getSeedPhrase = getSeedPhrase;
 exports.create_normaltx = create_normaltx;
+exports.keyToAddress = keyToAddress;
