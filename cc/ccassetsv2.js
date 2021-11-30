@@ -25,6 +25,29 @@ const typeforce = require('typeforce');
 const typeforceNT = require('typeforce/nothrow');
 const bscript = require("../src/script");
 
+/*
+  Assets cc v2 transaction creation functions.
+  This is a set of function to create assets cc v2 order transactions (tokenv2ask/bid/fillask/fillbid/cancelask/cancelbid)
+  The assets cc data are always stored in the last opreturn output in the 'extradata' field of the tokendata. 
+  The tokendata must have the correct format and have tokenid set to the id of the token to trade with the assets cc
+  some of assets cc outputs must have EVAL_ASSETSV2 evalcode (0xF6)
+
+  assets cc opreturn data is stored in the 'extradata' blob of the tokendata (see the tokendata format in cctokenv2.js)
+  assets cc 'extradata' format:
+
+  evalcode    1b    must be EVAL_ASSETSV2
+  funcid      1b    's' (tokenv2ask), 'b' (tokenv2bid), 'S' (tokenv2fillask), 'B' (tokenv2fillbid), 'x' (tokenv2cancelask), 'o' (tokenv2cancelbid)  
+  version     1b    must be 0x01
+
+  If funcid is one of 's','b','S','B':
+
+  unit-price      int64LE  price of one token in satoshi
+  originator-pk   varbuffer   pubkey of the 
+  expiry-height   int32LE     order expiration height
+
+  If funcid is one of 'x','o' there is no any data after the 'version' field
+
+  */
 
 const assetsv2GlobalPk = "0345d2e7ab018619da6ed58ccc0138c5f58a7b754bd8e9a1a9d2b811c5fe72d467";
 const assetsv2GlobalPrivkey = Buffer.from([0x46, 0x58, 0x3b, 0x18, 0xee, 0x16, 0x63, 0x51, 0x6f, 0x60, 0x6e, 0x09, 0xdf, 0x9d, 0x27, 0xc8, 0xa7, 0xa2, 0x72, 0xa5, 0xd4, 0x6a, 0x9b, 0xcb, 0xd5, 0x4f, 0x7d, 0x1c, 0xb1, 0x2e, 0x63, 0x21]);

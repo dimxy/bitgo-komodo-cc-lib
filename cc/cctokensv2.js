@@ -22,6 +22,51 @@ const typeforceNT = require('typeforce/nothrow');
 const bscript = require("../src/script");
 const address = require('../src/address');
 
+/*
+// Tokens cc v2 transaction creation functions.
+// code to create token outputs 
+// token outputs are identified by evalcode == EVAL_TOKENSV2 (0xF5) inside the output's cryptocondition
+// token transaction must also contain token data that make an output a valid token. 
+// The token data are stored either in the token output OP_DROP or in the last transaction OP_RETURN output 
+
+  Token data format:
+
+  ---
+  OP_DROP token data format (for the option when token data in the token output opdrop blob after the OP_CRYPTOCONDITION): 
+
+  common-header varbuffer  common prefix for cc module opdrop data
+  vdata-size    1b vdata elements count
+  vdata-array   varbuffer[vdata-size] array of varbuffers. Note, that vdata-array[0] is tokendata
+
+  Common-header format:
+
+  evalcode      1b              evalcode must be EVAL_TOKENSV2
+  version       1b              version must be 2
+  M             1b              value M in MofN
+  N             1b              value N in MofN (number of pubkeys)
+  pubkeys       varbuffer[N]    array of destination pubkeys of size N
+
+  Tokendata (also vdata-array[0]) format:
+
+  tokenid       buffer32    tokenid reversed  
+  extradata     varbuffer   optional application data (f.e. assets cc data is here)
+  ---
+  OP_RETURN token data format (for the option when token data in the token tx last opreturn output): :
+
+  evalcode    1b    must be EVAL_TOKENSV2
+  funcid      1b    'c' for tokencreate, 't' for tokentransfer
+  version     1b    must be 0x01
+
+  If funcid == 'c':
+  origpk      varbuffer   creator pubkey
+  name        varbuffer   token name (any buffer up to 32b)
+  description varbuffer   token description (any buffer up to 4096b)
+  nftdata     varbuffer   optional user app data
+
+  If funcid == 't':
+  tokendata   has same format as the tokendata in OP_DROP 
+  --- 
+*/
 
 // tokel data props ids:
 const TKLPROP_ID = 1;
