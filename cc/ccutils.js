@@ -16,6 +16,7 @@ const types = require('../src/types');
 const { decodeTransactionData, parseTransactionData } = require('./txParser')
 var typeforce = require('typeforce');
 var typeforceNT = require('typeforce/nothrow');
+const OPS = require('bitcoin-ops');
 
 const Debug = require('debug')
 const logdebug = Debug('cc')
@@ -251,6 +252,28 @@ function findCCProbeForSpk(ccProbes, spk)
       //logdebug('prev condbin=', condbin.toString('hex'), 'probe condbinv2=', condbinv2p.toString('hex'));
       return condbin.equals(condbinv2p);
     }
+  });
+}
+
+exports.nspvGetInfo = nspvGetInfo;
+/**
+ * calls getinfo from a nspv peer
+ * @param {*} peers 
+ * @param {*} reqHeight, if 0 current height returned
+ * @returns 
+ */
+function nspvGetInfo(peers, reqHeight)
+{
+  typeforce('PeerGroup', peers);
+  typeforce('Number', reqHeight);
+
+  return new Promise((resolve, reject) => {
+    peers.nspvGetInfo(reqHeight, {}, (err, res, peer) => {
+    if (!err) 
+        resolve(res);
+    else
+        reject(err);
+    });
   });
 }
 
@@ -656,6 +679,30 @@ function txidFromHex(hex)
   }
   return Buffer.from([]); //Buffer.allocUnsafe(32).fill('\0');
 }
+
+exports.isError = function(o)
+{
+  return typeof(o) === 'object' && o.name === 'Error';
+}
+
+/**
+ * returns if scriptPubKey has OP_RETURN
+ * @param {*} script 
+ * @returns 
+ */
+ exports.isOpReturnSpk = function(script)
+ {
+   let chunks = bscript.decompile(script);
+   if (Array.isArray(chunks) && chunks.length > 0) {
+     if (chunks[0] == OPS.OP_RETURN) {
+       if (chunks.length > 1)
+         return chunks[1];
+       else
+         Buffer.from([]);
+     }
+   }
+   return false;
+ }
 
 exports.txidReverse = txidReverse;
 /**

@@ -18,9 +18,9 @@ const networks = require('../src/networks');
 //const mynetwork = networks.rick; 
 //const mynetwork = networks.dimxy19;
 //const mynetwork = networks.tok6; 
-const mynetwork = networks.tkltest; 
+//const mynetwork = networks.tkltest; 
 //const mynetwork = networks.dimxy23;
-//const mynetwork = networks.dimxy24;
+const mynetwork = networks.dimxy24;
 //const mynetwork = networks.tokel; 
 
 // not used for plan websockets, only for PXP which is not supported
@@ -171,6 +171,8 @@ if (!process.browser)
     try {
       ccbasic.cryptoconditions = await ccimp;  // init cryptoconditions var
 
+      await ccutils.nspvGetInfo(peers, 0)
+
       let mypair = ecpair.fromWIF(mywif, mynetwork);
       let mypk = mypair.getPublicKeyBuffer();
       // tests:
@@ -181,7 +183,7 @@ if (!process.browser)
       //console.log('txhex=', txhex);
 
       let result
-      //let result = await ccutils.getTxids(peers, "RR2nTYFBPTJafxQ6en2dhUgaJcMDk4RWef", 0, 0, 0);
+      result = await ccutils.getTxids(peers, "RR2nTYFBPTJafxQ6en2dhUgaJcMDk4RWef", 0, 0, 0);
       //let result = await ccutils.getTxids(peers, "RUXnkW5xrGJe4MG8B7YzM7YhuSoE44RVTe", 0, 0, 0);
       //let result = await ccutils.getUtxos(peers, "RUXnkW5xrGJe4MG8B7YzM7YhuSoE44RVTe", 0, 0, 0);
       //result = await ccutils.getUtxos(peers, "RAsjA3jDLMGMNAtkx7RyPiqvkrmJPqCzfQ", 0, 0, 0);
@@ -192,13 +194,14 @@ if (!process.browser)
 
       // gettransactionsmany:
       //result = await ccutils.getTransactionsMany(peers, mypk, "cce11829d3589cb930ededbf6c0da5cd6d38ac860717308d345f151e7666b54a", "0a1b489bf8f7c3ca9b29f8a1ecae0de8399e6ef06bd62786d3a8ad36577930b6", "0a1b489bf8f7c3ca9b29f8a1ecae0de8399e6ef06bd62786d3a8ad365779AAAA");
-      //console.log('result=', result);
+      console.log('result=', result);
 
       // tokev2address:
       //let tokev2address = await cctokens.TokenV2Address(peers, mypk, mypk);
       //console.log('tokev2address=', tokev2address);
 
       // test fromOutputScript: 
+      /*
       let getxns = await ccutils.getTransactionsMany(peers, mypk, "cce11829d3589cb930ededbf6c0da5cd6d38ac860717308d345f151e7666b54a", "91a53a6b364345360c013ea3de379b647eb9d3f985700e4957b9f45cf275dfc4");
       let tx = Transaction.fromHex(getxns.transactions[0].tx, mynetwork);
       let header = Block.fromHex(getxns.transactions[0].blockHeader, mynetwork);
@@ -211,6 +214,7 @@ if (!process.browser)
       let cctx = Transaction.fromHex(getxns.transactions[1].tx, mynetwork);
       let ccaddress = await addressutils.fromOutputScript(cctx.outs[0].script, mynetwork);
       console.log('ccaddress=', ccaddress);
+      */
 
     }
     catch(err) {

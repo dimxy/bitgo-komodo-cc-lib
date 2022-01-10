@@ -375,7 +375,7 @@ module.exports = {
     ],
   },
 
-  tkltest: {
+  TKLTEST: {
     messagePrefix: '\x18TKLTEST asset chain:\n',
     bech32: 'R',
     bip32: getDefaultBip32Mainnet(),
@@ -409,7 +409,7 @@ module.exports = {
     ],
   },
 
-  tokel: {
+  TOKEL: {
     messagePrefix: '\x18TOKEL chain:\n',
     bech32: 'R',
     bip32: getDefaultBip32Mainnet(),
@@ -435,10 +435,10 @@ module.exports = {
     dnsSeeds: [],
     staticPeers: [
       // '3.136.47.223:29404',
-      '135.125.204.169:29404',
-      '192.99.71.125:29404',
+      //'135.125.204.169:29404',
+      //'192.99.71.125:29404',
       //'18.190.86.67:29404'
-      //'localhost:29404'
+      'localhost:29404'
     ],
 
     // to connect over websockets:

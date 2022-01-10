@@ -23,6 +23,10 @@ class NspvPeerGroup extends PeerGroup {
   }
 }
 
+PeerGroup.prototype.nspvGetInfo = function(reqHeight, opts, cb) {
+  this._request('nspvGetInfo', reqHeight, opts, cb)
+}
+
 PeerGroup.prototype.nspvGetUtxos = function(address, isCC, skipCount, filter, opts, cb) {
   this._request('nspvGetUtxos', address, isCC, skipCount, filter, opts, cb)
 }
@@ -39,8 +43,16 @@ PeerGroup.prototype.nspvBroadcast = function(txidhex, txhex, opts, cb) {
   this._request('nspvBroadcast', txidhex, txhex, opts, cb)
 }
 
-PeerGroup.prototype.nspvTxproof = function(txidhex, vout, height, opts, cb) {
-  this._request('nspvTxproof', txidhex, vout, height, opts, cb)
+PeerGroup.prototype.nspvTxProof = function(txidhex, vout, height, opts, cb) {
+  this._request('nspvTxProof', txidhex, vout, height, opts, cb)
+}
+
+PeerGroup.prototype.nspvNtzs = function(height, opts, cb) {
+  this._request('nspvNtzs', height, opts, cb)
+}
+
+PeerGroup.prototype.nspvNtzsProof = function(prevTxid, nextTxid, opts, cb) {
+  this._request('nspvNtzsProof', prevTxid, nextTxid, opts, cb)
 }
 
 module.exports = old(NspvPeerGroup)
