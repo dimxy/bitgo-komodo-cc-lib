@@ -188,7 +188,7 @@ if (!process.browser)
       {
         if (Buffer.compare(loc, locnew) != 0)  {
           loc = locnew;
-          console.log('loc', ccutils.hashToHex(loc));
+          console.log('loc', ccutils.txidToHex(loc));
           peers.getHeaders([loc], {}, (err, headers) => {
             if (headers) {
               console.log("received headers", headers.length);

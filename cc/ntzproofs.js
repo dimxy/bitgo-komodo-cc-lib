@@ -129,6 +129,8 @@ exports.validateTxUsingNtzsProof = async function(peers, network, _txid, height)
     return null;
   } */
   let hdrOffset = height - (ntzsProof.common.nextht - ntzsProof.common.hdrs.length) - 1; 
+  for (let i = 0; i < ntzsProof.common.hdrs.length; i ++)
+    console.log(ntzs.prevntz.height + 1 + i);
 
   if (hdrOffset < 0 || hdrOffset >= ntzsProof.common.hdrs.length)  {
     logerror(`invalid header array offset ${hdrOffset} for notarization headers length ${ntzsProof.common.hdrs.length}`);
@@ -141,12 +143,12 @@ exports.validateTxUsingNtzsProof = async function(peers, network, _txid, height)
   // validate tx against txproof (partial merkle tree)
   let hashes = bmp.verify(txProof.partialMerkleTree);
   if (hashes.length == 0 || Buffer.compare(hashes[0], txid) != 0 )  {
-    logerror("invalid tx proof for txid:",  ccutils.hashToHex(txid));
+    logerror("invalid tx proof for txid:",  ccutils.txidToHex(txid));
     throw new Error("txid existence in the chain is not proved!");
   }
   // check txproof's merkle root is in notarized block
   if (Buffer.compare(ntzsProof.common.hdrs[hdrOffset].merkleRoot, txProof.partialMerkleTree.merkleRoot) != 0)   {
-    logerror("merkle root does not match notarization data for txid:",  ccutils.hashToHex(txid));
+    logerror("merkle root does not match notarization data for txid:",  ccutils.txidToHex(txid));
     throw new Error("could not check merkle root against notarization data!");
   }
 
@@ -207,7 +209,7 @@ exports.validateTxUsingTxProof = async function(peers, _txid)
   // validate tx against txproof (partial merkle tree)
   let hashes = bmp.verify(txProof.partialMerkleTree);
   if (hashes.length == 0 || Buffer.compare(hashes[0], txid) != 0 )  {
-    logerror("invalid tx proof for txid:",  ccutils.hashToHex(txid));
+    logerror("invalid tx proof for txid:",  ccutils.txidToHex(txid));
     throw new Error("txid existence in the chain is not proved!");
   }
   return true
