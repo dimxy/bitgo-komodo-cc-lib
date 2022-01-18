@@ -263,6 +263,19 @@ exports.kmdheader = struct([
   { name: 'solution', type: exports.varBuffer }
 ])
 
+// this is header format in nspv v0.0.4 when hdrs are returned in the ntz data
+let buffer1344 = struct.Buffer(1344)
+exports.kmdheaderNspv004 = struct([
+  { name: 'version', type: struct.Int32LE },
+  { name: 'prevHash', type: exports.buffer32 },
+  { name: 'merkleRoot', type: exports.buffer32 },
+  { name: 'hashFinalSaplingRoot', type: exports.buffer32 },
+  { name: 'timestamp', type: struct.UInt32LE },
+  { name: 'bits', type: struct.UInt32LE },
+  { name: 'nonce', type: exports.buffer32 },
+  { name: 'solution', type: buffer1344 }
+])
+
 let vhashes = struct.VarArray(varint, exports.buffer32)
 
 const NSPVREQ = {
@@ -313,7 +326,7 @@ let nspvInfoResp = struct([
   { name: 'blockhash', type: exports.buffer32 },
   { name: 'height', type: struct.Int32LE },
   { name: 'hdrheight', type: struct.Int32LE },
-  { name: 'header', type: exports.kmdheader },
+  { name: 'header', type: exports.kmdheaderNspv004 },
   { name: 'version', type: struct.UInt32LE },
 ]);
 
@@ -596,8 +609,8 @@ let nspvNtzsProofResp = (function(){
     let hdrs = [];
     for (let i = 0; i < numhdrs; i ++)   {
       //hdrs.push(decodeEquiHdr(bufferReader));
-      hdrs.push(exports.kmdheader.decode(bufferReader.buffer, bufferReader.offset));
-      bufferReader.offset += exports.kmdheader.decode.bytes;
+      hdrs.push(exports.kmdheaderNspv004.decode(bufferReader.buffer, bufferReader.offset));
+      bufferReader.offset += exports.kmdheaderNspv004.decode.bytes;
     }
 
     let prevht = bufferReader.readUInt32();   // from prev ntz tx opreturn
