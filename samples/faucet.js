@@ -30,12 +30,17 @@ const mynetwork = networks.dimxy24;
 // ccbasic.cryptoconditions = await ccimp;
 // to init the cryptoconditions wasm lib 
 // (this is due to wasm delayed loading specifics)
+// you will need to do a call like:
+// ccbasic.cryptoconditions = await ccimp;
+// to init the cryptoconditions wasm lib 
+// (this is due to wasm delayed loading specifics)
 const ccbasic = require('../cc/ccbasic');
 var ccimp;
 if (process.browser)
-  ccimp = import('cryptoconditions-js/pkg/cryptoconditions.js');   // in browser, use 'wasm-pack build' (no any --target). Don't forget run browerify!
+  ccimp = import('@tokel/cryptoconditions'); 
 else
-  ccimp = require('cryptoconditions-js/pkg/cryptoconditions.js');  // in nodejs, use 'wasm-pack build -t nodejs'
+  ccimp = require('@tokel/cryptoconditions'); 
+  
 
 // not used for plan websockets, only for PXP which is not supported
 var defaultPort = 14722
