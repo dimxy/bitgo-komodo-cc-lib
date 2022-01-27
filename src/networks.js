@@ -311,40 +311,6 @@ module.exports = {
     ],
   },
 
-
-  MORTY: {
-    messagePrefix: '\x18rick asset chain:\n',
-    bech32: 'R',
-    bip32: getDefaultBip32Mainnet(),
-    pubKeyHash: 0x3c,
-    scriptHash: 0x55,
-    cryptoconditionHash: 0x1c,
-    wif: 0xbc,
-    consensusBranchId: {
-      1: 0x00,
-      2: 0x00,
-      3: 0x5ba81b19,
-      4: 0x76b809bb, // (old Sapling branch id, used in kmd)
-      // 4: 0x2bb40e60
-      // 4: 0xf5b9230b
-    },
-    coin: coins.ZEC,
-    komodoAssetNet: true,
-    magic: 0x83f3bcaf,
-    protocolVersion: 170009,
-    messages: kmdmessages.kmdMessages,
-    //to connect over p2p:
-    dnsSeeds: [],
-    staticPeers: [
-      //'95.217.44.58:16347'
-      '185.151.240.221:16347'
-    ],
-    webSeeds: [
-      // 'wss://localhost:8192'
-      // TODO: add more
-    ],
-  },
-
   marmara: {
     messagePrefix: '\x18marmara asset chain:\n',
     bech32: 'R',
@@ -372,6 +338,7 @@ module.exports = {
     staticPeers: [
       //'5.189.175.61:33824'
       'localhost:33824'
+      //'116.203.120.163:33824'
     ],
     webSeeds: [
       // 'wss://localhost:8192'
