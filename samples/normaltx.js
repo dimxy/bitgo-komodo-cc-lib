@@ -15,13 +15,16 @@ var NspvPeerGroup = require('../net/nspvPeerGroup');
 require('../net/nspvPeer');  // init peer.js too
 
 const networks = require('../src/networks');
-//const mynetwork = networks.rick; 
+//const mynetwork = networks.RICK; 
 //const mynetwork = networks.dimxy19;
 //const mynetwork = networks.tok6; 
 //const mynetwork = networks.tkltest; 
 //const mynetwork = networks.dimxy23;
-const mynetwork = networks.dimxy24;
-//const mynetwork = networks.tokel; 
+//const mynetwork = networks.dimxy24;
+//const mynetwork = networks.TOKEL; 
+const mynetwork = networks.marmara
+//const mynetwork = networks.MORTY; 
+
 
 // not used for plan websockets, only for PXP which is not supported
 //var defaultPort = 1111
@@ -178,12 +181,12 @@ if (!process.browser)
       // tests:
       
       // make a normal tx
-      //let txhex = await create_normaltx(mywif, "RR2nTYFBPTJafxQ6en2dhUgaJcMDk4RWef", 5000);  // amount in satoshi
+      let txhex = await create_normaltx(mywif, "RR2nTYFBPTJafxQ6en2dhUgaJcMDk4RWef", 5000);  // amount in satoshi
       //let txhex = await create_normaltx(mywif, "RAsjA3jDLMGMNAtkx7RyPiqvkrmJPqCzfQ", 5000);
-      //console.log('txhex=', txhex);
+      console.log('txhex=', txhex);
 
       let result
-      result = await ccutils.getTxids(peers, "RR2nTYFBPTJafxQ6en2dhUgaJcMDk4RWef", 0, 0, 0);
+      //result = await ccutils.getTxids(peers, "RR2nTYFBPTJafxQ6en2dhUgaJcMDk4RWef", 0, 0, 0);
       //let result = await ccutils.getTxids(peers, "RUXnkW5xrGJe4MG8B7YzM7YhuSoE44RVTe", 0, 0, 0);
       //let result = await ccutils.getUtxos(peers, "RUXnkW5xrGJe4MG8B7YzM7YhuSoE44RVTe", 0, 0, 0);
       //result = await ccutils.getUtxos(peers, "RAsjA3jDLMGMNAtkx7RyPiqvkrmJPqCzfQ", 0, 0, 0);
@@ -194,7 +197,7 @@ if (!process.browser)
 
       // gettransactionsmany:
       //result = await ccutils.getTransactionsMany(peers, mypk, "cce11829d3589cb930ededbf6c0da5cd6d38ac860717308d345f151e7666b54a", "0a1b489bf8f7c3ca9b29f8a1ecae0de8399e6ef06bd62786d3a8ad36577930b6", "0a1b489bf8f7c3ca9b29f8a1ecae0de8399e6ef06bd62786d3a8ad365779AAAA");
-      console.log('result=', result);
+      //console.log('result=', result);
 
       // tokev2address:
       //let tokev2address = await cctokens.TokenV2Address(peers, mypk, mypk);
